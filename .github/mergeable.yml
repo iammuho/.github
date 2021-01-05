@@ -1,4 +1,6 @@
 version: 2
+whitelist:
+  - hellofresh/mergeable-automation
 mergeable:
   - when: pull_request.*, pull_request_review.*
     validate:
