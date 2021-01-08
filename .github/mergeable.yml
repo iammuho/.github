@@ -1,12 +1,13 @@
+---
 version: 2
-whitelist:
-  - hellofresh/mergeable-automation
 mergeable:
   - when: pull_request.*, pull_request_review.*
     validate:
-      - do: title
-        # Enforce semantic release convention.
+      - do: headRef
         must_include:
-          regex: muho
-          message: Semantic release conventions must be followed.
-        # All todo check boxes must be checked.
+          regex: '(\b[A-Z][A-Z0-9]+-\d+\b).+$'
+          message: 'Your branch name should include JIRA TICKET ID (i.e ABC-1234-test-branch)'
+      - do: description
+        no_empty:
+          enabled: true
+          message: Description matter and should not be empty. Provide detail with **what** was changed, **why** it was changed, and **how** it was changed.
