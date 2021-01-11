@@ -3,11 +3,12 @@ version: 2
 mergeable:
   - when: pull_request.*, pull_request_review.*
     validate:
+      - do: title
+        must_exclude:
+          regex: ^\[WIP\]
+  - when: pull_request.*, pull_request_review.*
+    validate:
       - do: headRef
         must_include:
-          regex: '(\b[A-Z][A-Z0-9]+-\d+\b).+$'
-          message: 'Your branch name should include JIRA TICKET ID (i.e ABC-1234-test-branch)'
-      - do: description
-        no_empty:
-          enabled: true
-          message: Description matter and should not be empty. Provide detail with **what** was changed, **why** it was changed, and **how** it was changed.
+          regex: '.+'
+          message: 'Your branch name can contain anything'
