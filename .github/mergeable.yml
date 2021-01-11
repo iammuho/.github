@@ -2,6 +2,7 @@
 version: 2
 mergeable:
   - when: pull_request.*, pull_request_review.*
+    name: 'checkfirst'
     validate:
       - do: title
         must_exclude:
@@ -11,6 +12,7 @@ mergeable:
           regex: \[ \]
           message: There are incomplete TODO task(s) unchecked.
   - when: pull_request.*, pull_request_review.*
+    name: 'checksecond'
     validate:
       - do: headRef
         must_include:
