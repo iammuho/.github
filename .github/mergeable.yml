@@ -16,7 +16,7 @@ mergeable:
     validate:
       - do: headRef
         must_include:
-          regex: '[A-Z][A-Z0-9]+-\d+' # https://regex101.com/r/kliZnu/1
+          regex: '/[A-Z][A-Z0-9]+-\d+/' # https://regex101.com/r/kliZnu/1
           message: 'Your branch name must contain a Jira ticket ID (i.e EES-2021)'
 
       - do: title
