@@ -2,7 +2,7 @@
 version: 2
 mergeable:
   - when: pull_request.*, pull_request_review.*
-    name: 'Organization'
+    name: 'checkfirst'
     validate:
       - do: title
         must_exclude:
@@ -11,3 +11,75 @@ mergeable:
         must_exclude:
           regex: \[ \]
           message: There are incomplete TODO task(s) unchecked.
+  - when: pull_request.*, pull_request_review.*
+    name: HelloTech rules
+    validate:
+      - do: headRef
+        must_include:
+          regex: '[A-Z][A-Z0-9]+-\d+' # https://regex101.com/r/kliZnu/1
+          message: 'Your branch name must contain a Jira ticket ID (i.e EES-2021)'
+
+      - do: title
+        must_exclude:
+          regex: '\b(WIP|wip)\b' # https://regex101.com/r/SY3CCK/2
+          message: 'Your PR title must NOT contain WIP'
+
+      - do: label
+        must_exclude:
+          regex: '\b(WIP|wip)\b' # https://regex101.com/r/SY3CCK/2
+          message: 'Your PR must NOT have a WIP label'
+
+      - do: description
+        no_empty:
+          enabled: true
+          message: The description should not be empty. Please provide detail about **what** was changed, **why** it was changed, and **how** it was changed.
+
+    pass:
+      - do: checks
+        state: 'completed'
+        status: 'success'
+        payload:
+          title: 'Checks run has been completed'
+          summary: |-
+            All the validators are passing.
+            {{validationCount}} validations were ran.
+    fail:
+      - do: checks
+        state: 'completed'
+        status: 'failure'
+        payload:
+          title: '{{failCount}}/{{validationCount}} Fail(s): {{#failures}} {{toUpperCase name}}{{^@last}}, {{/@last}}{{/failures}}'
+          summary: |-
+            ### Status: {{toUpperCase validationStatus}}
+            {{validationCount}} validations were ran, here are some stats:
+            {{passCount}} PASSED
+            {{failCount}} FAILED
+          text: |-
+            {{#each validationSuites}}
+            #### {{{statusIcon status}}} Validator: {{toUpperCase name}}
+            {{#each validations }}
+            * {{{statusIcon status}}} ***{{{ description }}}***
+            {{/each}}
+            {{/each}}
+    error:
+      - do: checks
+        status: 'action_required'
+        payload:
+          title: 'Mergeable found some errors'
+          summary: |-
+            ### Status: {{toUpperCase validationStatus}}
+            Some or all of the validators have returned an error status, please check below for details.
+            {{validationCount}} validations were ran, here are some stats:
+            {{passCount}} ***PASSED***
+            {{failCount}} ***FAILED***
+            {{errorCount}} ***ERRORED***
+          text: |-
+            {{#each validationSuites}}
+            #### {{{statusIcon status}}} Validator: {{toUpperCase name}}
+            Status {{toUpperCase status}}
+            {{#each validations }} * {{{statusIcon status}}} ***{{{ description }}}***
+                Input: {{{details.input}}}
+                Settings: {{{displaySettings details.settings}}}
+                {{#if details.error}}Error: {{{details.error}}}{{/if}}
+            {{/each}}
+            {{/each}}"
