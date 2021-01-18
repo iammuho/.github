@@ -4,15 +4,6 @@ mergeable:
   - when: pull_request.*, pull_request_review.*
     name: 'checkfirst'
     validate:
-      - do: title
-        jira:
-          enabled: true
-          regex: '[A-Z][A-Z0-9]+-\d+'
-          regex_flag: none
-          message: 'JIRA Ticket ID is not valid'
+      - do: milestone
         must_exclude:
-          regex: ^\[WIP\]
-        must_include:
-          regex: '[A-Z][A-Z0-9]+-\d+'
-          regex_flag: none
-          message: 'Branch name contains Jira ticket (i.e EES-2021)'
+          regex: 'test'
