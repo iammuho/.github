@@ -6,8 +6,6 @@ mergeable:
     validate:
       - do: title
         must_exclude:
-          regex: ^\[WIP\]
-        must_exclude:
           regex: '[A-Z][A-Z0-9]+-\d+'
           regex_flag: none
           message: 'Branch name contains Jira ticket (i.e EES-2021)'
