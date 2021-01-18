@@ -5,6 +5,8 @@ mergeable:
     name: 'checkfirst'
     validate:
       - do: title
+        jira:
+          enabled: true
         must_exclude:
           regex: ^\[WIP\]
       - do: description
