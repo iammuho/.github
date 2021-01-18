@@ -9,3 +9,7 @@ mergeable:
           enabled: true
         must_exclude:
           regex: ^\[WIP\]
+        must_include:
+          regex: '[A-Z][A-Z0-9]+-\d+'
+          regex_flag: none
+          message: 'Branch name contains Jira ticket (i.e EES-2021)'
