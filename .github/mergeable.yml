@@ -7,6 +7,8 @@ mergeable:
       - do: title
         jira:
           enabled: true
+          regex: '[A-Z][A-Z0-9]+-\\d+'
+          regex_flag: none
         must_exclude:
           regex: ^\[WIP\]
         must_include:
