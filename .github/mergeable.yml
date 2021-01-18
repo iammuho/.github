@@ -5,14 +5,9 @@ mergeable:
     name: 'checkfirst'
     validate:
       - do: title
-        jira:
-          enabled: true
-          regex: '[A-Z][A-Z0-9]+-\d+'
-          regex_flag: none
-          message: 'JIRA Ticket ID is not valid'
         must_exclude:
           regex: ^\[WIP\]
-        must_include:
+        must_exclude:
           regex: '[A-Z][A-Z0-9]+-\d+'
           regex_flag: none
           message: 'Branch name contains Jira ticket (i.e EES-2021)'
