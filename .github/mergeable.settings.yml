@@ -1,4 +1,5 @@
 version: 1
 mergeable:
-  merge_organization_with_repo: true
-  pull_request_override: false
+  use_config_from_pull_request: false
+  use_config_cache: false
+  use_org_as_default_config: true
