@@ -1,0 +1,4 @@
+version: 1
+settings:
+  merge_organization_with_repo: true
+  pull_request_override: false
